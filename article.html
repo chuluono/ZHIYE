@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 主题提前应用：首帧即为正确主题，消除页面切换时的闪白 -->
+  <script>(function(){var t=null;try{t=localStorage.getItem("blog-theme");}catch(e){}if(t!=="dark"&&t!=="light"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+  <!-- BUILD_HEAD_START（tools/build.mjs 会用每篇文章的 SEO head 替换此区间；静态页不含 noindex） -->
+  <title>文章详情 · 知野 ZHIYE</title>
+  <meta name="description" content="知野 ZHIYE · Chuluo 的个人博客文章">
+  <meta name="robots" content="noindex">
+  <!-- BUILD_HEAD_END -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file: 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' file: 'unsafe-inline'; img-src 'self' file: data:; font-src 'self' file:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='11' fill='%231C1C1E'/><rect x='13' y='18' width='22' height='22' fill='none' stroke='%23FFFFFF' stroke-width='2.6'/><line x1='19' y1='34' x2='41' y2='12' stroke='%236FAE90' stroke-width='2.6' stroke-linecap='round'/><circle cx='19' cy='34' r='2.8' fill='%236FAE90'/></svg>">
+  <meta name="theme-color" content="#F3F3F1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <!-- 阅读进度条 -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><svg class="brand-logo" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="13" width="30" height="30" fill="none" stroke="currentColor" stroke-width="3"/><line x1="17" y1="35" x2="45" y2="7" stroke="var(--wild)" stroke-width="3" stroke-linecap="round"/><circle cx="17" cy="35" r="3.4" fill="var(--wild)"/></svg>知野</a>
+      <nav class="site-nav">
+        <a href="index.html" class="active" aria-current="page">首页</a>
+        <a href="notes.html">随笔</a>
+        <a href="about.html">关于</a>
+        <button class="theme-toggle" aria-label="切换深浅主题（快捷键 T）"></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="container article-wrap">
+      <article id="articleRoot"></article>
+      <aside class="toc" id="toc" hidden>
+        <h4>章节目录</h4>
+        <nav id="tocNav"></nav>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p class="footer-brand">知野 ZHIYE<span class="footer-tagline">把好奇放归山野</span></p>
+      <div class="footer-right">
+        <span class="footer-copy">© 2026 Chuluo</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="backTop" class="back-top" aria-label="回到顶部">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <circle class="ring-bg" cx="24" cy="24" r="21"></circle>
+      <circle class="ring-fg" cx="24" cy="24" r="21"></circle>
+    </svg>
+    <span class="arrow">↑</span>
+  </button>
+
+  <!-- Markdown 渲染：本地优先，CDN 兜底（SRI 校验防劫持）；DOMPurify 白名单过滤（仅动态兜底页需要） -->
+  <script src="lib/marked.min.js"></script>
+  <script>window.marked || document.write('<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" integrity="sha384-/TQbtLCAerC3jgaim+N78RZSDYV7ryeoBCVqTuzRrFec2akfBkHS7ACQ3PQhvMVi" crossorigin="anonymous"><\/script>');</script>
+  <script src="lib/purify.min.js"></script>
+  <script>window.DOMPurify || document.write('<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" integrity="sha384-eEu5CTj3qGvu9PdJuS+YlkNi7d2XxQROAFYOr59zgObtlcux1ae1Il3u7jvdCSWu" crossorigin="anonymous"><\/script>');</script>
+  <script src="js/posts.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function __initArticlePage() {
+      var H = window.BLOG_HELPERS;
+      var root = document.getElementById("articleRoot");
+
+      /* ---------- 通用增强：静态预渲染页与动态渲染页共用 ----------
+         代码块窗口头 + 复制 / 目录生成 / 键盘翻页 / 渐显 */
+      function enhance() {
+        /* 剪贴板：优先 Clipboard API，file:// 或旧环境降级 execCommand */
+        function legacyCopy(text, ok) {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand("copy"); ok(); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+        function copyText(text, ok) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(ok, function () { legacyCopy(text, ok); });
+          } else {
+            legacyCopy(text, ok);
+          }
+        }
+
+        /* 代码块：macOS 窗口头部（圆点 + 语言 + 复制） */
+        function guessLang(code) {
+          if (/[{}]/.test(code) && /-webkit-|display|margin|padding|color|width|flex|background|align|justify/.test(code)) return "CSS";
+          if (/\b(function|const|let|var|return)\b/.test(code) || /=>/.test(code)) return "JavaScript";
+          if (/^#!|\b(sudo|apt|curl|npm|git)\b/m.test(code)) return "Shell";
+          if (/^\s*(#{1,3}\s|-\s|>\s|\*\*)/m.test(code)) return "Markdown";
+          return "Text";
+        }
+        document.querySelectorAll("#mdBody pre").forEach(function (pre) {
+          var codeEl = pre.querySelector("code");
+          if (!codeEl) return;
+          var wrap = document.createElement("div");
+          wrap.className = "code-block";
+          var head = document.createElement("div");
+          head.className = "code-head";
+          head.innerHTML =
+            '<span class="dot" style="background:#ff5f57"></span>' +
+            '<span class="dot" style="background:#febc2e"></span>' +
+            '<span class="dot" style="background:#28c840"></span>' +
+            '<span class="code-lang">' + guessLang(codeEl.textContent) + "</span>";
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "code-copy";
+          btn.textContent = "复制";
+          btn.addEventListener("click", function () {
+            copyText(codeEl.textContent, function () {
+              btn.textContent = "已复制 ✓";
+              setTimeout(function () { btn.textContent = "复制"; }, 1600);
+            });
+          });
+          head.appendChild(btn);
+          pre.parentNode.insertBefore(wrap, pre);
+          wrap.appendChild(head);
+          wrap.appendChild(pre);
+        });
+
+        /* 目录：从 h2/h3 生成（系列教程页没有目录侧栏，自动跳过） */
+        var heads = document.querySelectorAll("#mdBody h2, #mdBody h3");
+        var tocNav = document.getElementById("tocNav");
+        if (heads.length && tocNav) {
+          var tocHTML = [];
+          heads.forEach(function (h, i) {
+            h.id = "sec-" + i;
+            tocHTML.push('<a href="#sec-' + i + '" class="' + (h.tagName === "H3" ? "lv3" : "") + '">' + H.escapeHtml(h.textContent) + "</a>");
+          });
+          tocNav.innerHTML = tocHTML.join("");
+          document.getElementById("toc").hidden = false;
+          window.BLOG_initScrollSpy();
+        }
+
+        /* 键盘 ← / → 切换上 / 下一篇（链接由动态渲染或生成器写入） */
+        document.addEventListener("keydown", function (e) {
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          var el = document.activeElement;
+          if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable)) return;
+          /* 正在选中文本时方向键用于移动光标，不触发翻页 */
+          if (String(window.getSelection && window.getSelection() || "")) return;
+          if (e.key === "ArrowLeft") {
+            var o = document.getElementById("navOlder");
+            if (o) location.href = o.href;
+          } else if (e.key === "ArrowRight") {
+            var n = document.getElementById("navNewer");
+            if (n) location.href = n.href;
+          }
+        });
+
+        window.BLOG_initReveal(root);
+      }
+
+      /* ---------- 模式一：静态预渲染页（posts/<slug>/，由 tools/build.mjs 生成） ----------
+         标题/正文/延伸阅读/上下篇已在 HTML 中，只做交互增强。 */
+      if (root.getAttribute("data-prerendered") === "1") { enhance(); return; }
+
+      /* ---------- 模式二：动态兜底（article.html?slug=xxx，不收录） ---------- */
+      var slug = new URLSearchParams(location.search).get("slug");
+      var post = slug ? H.getPost(slug) : null;
+
+      /* 404 兜底（附最近文章推荐） */
+      if (!post) {
+        var latest = H.sortedPosts().slice(0, 3);
+        root.innerHTML =
+          '<div class="notfound"><span class="big">🛸</span><h1>文章不存在</h1>' +
+          "<p>它可能还没有被写出来，或者链接打错了。看看最近的文章？</p>" +
+          '<div class="related-grid" style="text-align:left;margin-bottom:28px">' +
+          latest.map(function (p) {
+            return '<a class="mini-card" href="' + H.postURL(p) + '">' +
+              '<span class="emoji">' + p.emoji + '</span><span><h3>' + H.escapeHtml(p.title) +
+              '</h3><div class="mini-meta">' + p.date + "</div></span></a>";
+          }).join("") +
+          '</div><a class="btn" href="' + window.BLOG_ROOT + 'index.html">回到首页</a></div>';
+        document.title = "文章不存在 · 知野 ZHIYE";
+        return;
+      }
+
+      document.title = post.title + " · 知野 ZHIYE";
+      var og = document.querySelector('meta[property="og:title"]');
+      if (og) og.setAttribute("content", document.title);
+      var desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.setAttribute("content", post.excerpt);
+
+      /* 简易 Markdown 渲染器（marked 不可用时的最后兜底） */
+      function fallbackRender(md) {
+        function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+        function inline(s) {
+          return esc(s)
+            .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+            .replace(/\*(.+?)\*/g, "<em>$1</em>")
+            .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>');
+        }
+        var out = [], code = null;
+        md.split("\n").forEach(function (line) {
+          if (line.indexOf("    ") === 0 && line.trim()) {
+            if (code === null) code = [];
+            code.push(esc(line.slice(4)));
+            return;
+          }
+          if (code !== null) { out.push("<pre><code>" + code.join("\n") + "</code></pre>"); code = null; }
+          var t = line.trim();
+          if (!t) return;
+          if (t.indexOf("### ") === 0) out.push("<h3>" + inline(t.slice(4)) + "</h3>");
+          else if (t.indexOf("## ") === 0) out.push("<h2>" + inline(t.slice(3)) + "</h2>");
+          else if (t.indexOf("> ") === 0) out.push("<blockquote><p>" + inline(t.slice(2)) + "</p></blockquote>");
+          else if (t.indexOf("- ") === 0) out.push("<ul><li>" + inline(t.slice(2)) + "</li></ul>");
+          else if (/^\d+\. /.test(t)) out.push("<ol><li>" + inline(t.replace(/^\d+\. /, "")) + "</li></ol>");
+          else if (t === "---") out.push("<hr>");
+          else out.push("<p>" + inline(t) + "</p>");
+        });
+        if (code !== null) out.push("<pre><code>" + code.join("\n") + "</code></pre>");
+        return out.join("\n");
+      }
+
+      var html;
+      try {
+        html = window.marked ? window.marked.parse(post.content) : fallbackRender(post.content);
+      } catch (e) {
+        html = fallbackRender(post.content);
+      }
+      /* 深度防御：即便文章数据被污染，HTML 也必须经 DOMPurify 白名单过滤 */
+      if (window.DOMPurify && window.DOMPurify.isSupported) {
+        html = window.DOMPurify.sanitize(html, { FORBID_TAGS: ["style"], FORBID_ATTR: ["style"] });
+      }
+      /* 品牌合作文章：外部链接自动加 rel="sponsored nofollow"（Google 合规）并新窗口打开 */
+      if (post.sponsored) {
+        html = html.replace(/<a href="(https?:\/\/[^"]*)"([^>]*)>/g, '<a href="$1"$2 rel="sponsored nofollow noopener" target="_blank">');
+      }
+
+      /* 延伸阅读：同标签优先，不足补最新 */
+      var sorted = H.sortedPosts();
+      var idx = sorted.findIndex(function (p) { return p.slug === post.slug; });
+      var related = window.BLOG.posts
+        .filter(function (p) { return p.slug !== post.slug; })
+        .map(function (p) {
+          var shared = p.tags.filter(function (t) { return post.tags.indexOf(t) !== -1; }).length;
+          return { post: p, shared: shared };
+        })
+        .sort(function (a, b) { return b.shared - a.shared || b.post.date.localeCompare(a.post.date); })
+        .slice(0, 3)
+        .map(function (x) { return x.post; });
+
+      var relatedHTML = related.map(function (p) {
+        return '<a class="mini-card reveal" href="' + H.postURL(p) + '">' +
+          '<span class="emoji">' + p.emoji + "</span><span><h3>" + H.escapeHtml(p.title) +
+          '</h3><div class="mini-meta">' + H.fmtRelative(p.date) + " · 约 " + H.readingMin(p.content) + " 分钟</div></span></a>";
+      }).join("");
+
+      root.innerHTML =
+        '<div class="article-banner" style="' + H.coverStyle(post) + '" aria-hidden="true">' + (post.coverImg ? '<img class="cover-img" src="' + window.BLOG_ROOT + post.coverImg + '" alt="" loading="lazy">' : "<span>" + post.emoji + "</span>") + "</div>" +
+        '<h1 class="article-title">' + H.escapeHtml(post.title) + "</h1>" +
+        '<div class="article-meta">' +
+          '<div class="meta-author"><img class="meta-avatar" src="' + window.BLOG_ROOT + 'img/avatar.png" alt="Chuluo 的头像">' +
+          '<div class="meta-text"><b>Chuluo</b><span>发布于 ' + H.fmtDate(post.date) + " · 约 " + H.readingMin(post.content) + " 分钟读完</span></div></div>" +
+          '<div class="post-tags">' + (post.sponsored ? '<span class="sponsored-badge">合作推广</span>' : "") + H.tagChips(post) + "</div></div>" +
+        '<div class="markdown-body" id="mdBody">' + html + "</div>" +
+        '<div class="end-mark" aria-hidden="true"><span class="line l"></span><span class="star">✦</span><span class="line r"></span></div>' +
+        '<p class="end-thanks">感谢阅读 · 期待与你交流</p>' +
+        '<section class="related"><div class="section-head"><h2>延伸阅读</h2></div><div class="related-grid">' + relatedHTML + "</div></section>" +
+        '<nav class="post-neighbor" id="neighbor"></nav>' +
+        '<p class="article-keyboard">键盘 <kbd>←</kbd> <kbd>→</kbd> 可快速切换文章</p>';
+
+      /* 上一篇 / 下一篇：系列教程按章节顺序，普通文章按日期 */
+      var older, newer, dirPrev = "← 上一篇", dirNext = "下一篇 →";
+      if (post.series) {
+        var members = window.BLOG.posts.filter(function (x) { return x.series && x.series.id === post.series.id; })
+          .sort(function (a, b) { return a.series.part - b.series.part; });
+        var ci = members.findIndex(function (x) { return x.slug === post.slug; });
+        older = members[ci - 1];
+        newer = members[ci + 1];
+        dirPrev = "← 上一章";
+        dirNext = "下一章 →";
+      } else {
+        older = sorted[idx + 1];
+        newer = sorted[idx - 1];
+      }
+      var nb = [];
+      if (older) {
+        nb.push('<a class="neighbor-card prev" id="navOlder" href="' + H.postURL(older) +
+          '"><div class="dir">' + dirPrev + '</div><div class="t">' + H.escapeHtml(older.title) + "</div></a>");
+      } else {
+        nb.push("<span></span>");
+      }
+      if (newer) {
+        nb.push('<a class="neighbor-card next" id="navNewer" href="' + H.postURL(newer) +
+          '"><div class="dir">' + dirNext + '</div><div class="t">' + H.escapeHtml(newer.title) + "</div></a>");
+      } else {
+        nb.push("<span></span>");
+      }
+      document.getElementById("neighbor").innerHTML = nb.join("");
+
+      enhance();
+    }
+    __initArticlePage();
+  </script>
+</body>
+</html>
