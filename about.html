@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 主题提前应用：首帧即为正确主题，消除页面切换时的闪白 -->
+  <script>(function(){var t=null;try{t=localStorage.getItem("blog-theme");}catch(e){}if(t!=="dark"&&t!=="light"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+  <title>关于 · 知野 ZHIYE</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file: 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' file: 'unsafe-inline'; img-src 'self' file: data:; font-src 'self' file:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='11' fill='%231C1C1E'/><rect x='13' y='18' width='22' height='22' fill='none' stroke='%23FFFFFF' stroke-width='2.6'/><line x1='19' y1='34' x2='41' y2='12' stroke='%236FAE90' stroke-width='2.6' stroke-linecap='round'/><circle cx='19' cy='34' r='2.8' fill='%236FAE90'/></svg>">
+  <meta name="description" content="关于 Chuluo 与知野 ZHIYE：一个喜欢折腾的前端开发者，记录技术、工具与生活。">
+  <meta name="author" content="Chuluo">
+  <link rel="canonical" href="https://YOUR-SITE.example/about.html">
+  <meta name="theme-color" content="#F3F3F1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="关于 · 知野 ZHIYE">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="知野 ZHIYE">
+  <meta property="og:url" content="https://YOUR-SITE.example/about.html">
+  <meta property="og:locale" content="zh_CN">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Chuluo",
+    "url": "https://YOUR-SITE.example/about.html",
+    "description": "一名喜欢折腾的前端开发者，白天写代码，晚上写博客，相信输出是最好的输入。",
+    "jobTitle": "前端开发者",
+    "knowsAbout": ["HTML", "CSS", "JavaScript", "TypeScript", "Vue", "React", "Node.js"],
+    "mainEntityOfPage": { "@type": "WebSite", "name": "知野 ZHIYE", "url": "https://YOUR-SITE.example/" }
+  }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><svg class="brand-logo" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="13" width="30" height="30" fill="none" stroke="currentColor" stroke-width="3"/><line x1="17" y1="35" x2="45" y2="7" stroke="var(--wild)" stroke-width="3" stroke-linecap="round"/><circle cx="17" cy="35" r="3.4" fill="var(--wild)"/></svg>知野</a>
+      <nav class="site-nav">
+        <a href="index.html">首页</a>
+        <a href="notes.html">随笔</a>
+        <a href="about.html" class="active" aria-current="page">关于</a>
+        <button class="theme-toggle" aria-label="切换深浅主题（快捷键 T）"></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <!-- 头像与简介 -->
+    <section class="about-hero">
+      <div class="avatar-ring reveal">
+        <div class="avatar"><img src="img/avatar.png" alt="Chuluo 的头像"></div>
+      </div>
+      <h1 class="reveal" style="transition-delay:.08s">你好，我是 Chuluo 👋</h1>
+      <p class="bio reveal" style="transition-delay:.16s">一名喜欢折腾的前端开发者。白天写代码，晚上写博客，闲下来研究 AI 和音乐。相信「输出是最好的输入」，于是有了这个记录思考与分享知识的地方。</p>
+      <div class="about-stats reveal" style="transition-delay:.24s" id="aboutStats"></div>
+    </section>
+
+    <!-- 关于我 -->
+    <section class="about-section reveal">
+      <h2>关于我</h2>
+      <p class="muted">我对一切「让事情变简单」的工具和方法感兴趣：好的代码、好的笔记系统、好的工作流。这个博客主要写三类内容——</p>
+      <br>
+      <div class="skill-chips">
+        <span>🧠 AI 资讯与工具实测</span>
+        <span>🧑‍💻 编程技术与知识分享</span>
+        <span>🎵 音乐、阅读与生活随笔</span>
+      </div>
+    </section>
+
+    <!-- 技能栈 -->
+    <section class="about-section reveal">
+      <h2>我在用的技术</h2>
+      <div class="skill-chips">
+        <span>HTML / CSS</span><span>JavaScript</span><span>TypeScript</span>
+        <span>Vue</span><span>React</span><span>Node.js</span>
+        <span>Vite</span><span>Git</span><span>Markdown</span>
+      </div>
+    </section>
+
+    <!-- 时间线 -->
+    <section class="about-section reveal">
+      <h2>我的时间线</h2>
+      <ul class="timeline">
+        <li>
+          <div class="when">2026 年</div>
+          <div class="what">开始认真写博客</div>
+          <div class="detail">把零散的笔记整理成文章，「知野 ZHIYE」上线。</div>
+        </li>
+        <li>
+          <div class="when">2024 年</div>
+          <div class="what">深入前端工程化</div>
+          <div class="detail">从「能跑就行」进化到「稳定优雅」，迷上了 TypeScript 和自动化。</div>
+        </li>
+        <li>
+          <div class="when">2022 年</div>
+          <div class="what">写下第一行代码</div>
+          <div class="detail">一个丑丑的待办事项页面，但成就感十足。</div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 联系方式 -->
+    <section class="about-section reveal">
+      <h2>找到我</h2>
+      <div class="contact-list">
+        <a href="mailto:chuluo1000@qq.com" data-copy-email="chuluo1000@qq.com" title="点击复制邮箱">📮 chuluo1000@qq.com</a>
+        <a href="https://github.com/chuluono" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+        <a href="https://space.bilibili.com/3461567341398555" target="_blank" rel="noopener noreferrer">📺 Bilibili</a>
+        <a href="index.html">📖 我的博客</a>
+      </div>
+    </section>
+
+    <!-- 关于本站 -->
+    <section class="about-section reveal">
+      <h2>关于本站</h2>
+      <p class="muted">
+        本站是一个纯静态个人博客，无需服务器与数据库：文章以 Markdown 书写，
+        由 marked.js 在浏览器端渲染；支持深浅色主题切换、标签分类、目录导航与代码复制。
+      </p>
+      <br>
+      <p class="muted">小彩蛋 · 键盘快捷键：</p>
+      <br>
+      <div class="skill-chips">
+        <span><kbd>T</kbd>&nbsp; 切换深浅主题</span>
+        <span><kbd>←</kbd>&nbsp; 上一篇</span>
+        <span><kbd>→</kbd>&nbsp; 下一篇</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p class="footer-brand">知野 ZHIYE<span class="footer-tagline">把好奇放归山野</span></p>
+      <div class="footer-right">
+        <span class="footer-copy">© 2026 Chuluo</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="backTop" class="back-top" aria-label="回到顶部">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <circle class="ring-bg" cx="24" cy="24" r="21"></circle>
+      <circle class="ring-fg" cx="24" cy="24" r="21"></circle>
+    </svg>
+    <span class="arrow">↑</span>
+  </button>
+
+  <script src="js/posts.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function __initAboutPage() {
+      var H = window.BLOG_HELPERS;
+      var posts = window.BLOG.posts;
+      var totalChars = posts.reduce(function (s, p) { return s + p.content.replace(/\s/g, "").length; }, 0);
+      document.getElementById("aboutStats").innerHTML =
+        '<div class="stat"><b>' + posts.length + "</b><span>篇文章</span></div>" +
+        '<div class="stat"><b>' + H.allTags().length + "</b><span>个标签</span></div>" +
+        '<div class="stat"><b>' + (totalChars / 1000).toFixed(1) + "k</b><span>累计字数</span></div>";
+    }
+    __initAboutPage();
+  </script>
+</body>
+</html>
