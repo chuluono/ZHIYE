@@ -1,0 +1,70 @@
+# 拾光集 · GitHub Pages 自动部署
+# push 到 main 分支 → 自动构建 → 自动发布，无需手动上传构建产物
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # 允许在 Actions 页面手动触发
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一次部署，新推送取消旧的
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 自动计算正式站点地址：用户主页仓库用根路径，项目仓库用子路径
+      - name: Compute SITE_URL
+        run: |
+          REPO="${{ github.event.repository.name }}"
+          OWNER="${{ github.repository_owner }}"
+          if [[ "$REPO" == *.github.io ]]; then
+            echo "SITE_URL=https://$OWNER.github.io/" >> "$GITHUB_ENV"
+          else
+            echo "SITE_URL=https://$OWNER.github.io/$REPO/" >> "$GITHUB_ENV"
+          fi
+
+      # CI 检出是一次性的：把源文件里的占位域名替换为正式地址（不影响本地源码）
+      # ${SITE_URL%/} 去掉尾斜杠，避免与源文件里的 / 叠成 //
+      - name: Replace placeholder domain
+        run: |
+          grep -rl "https://YOUR-SITE.example" --include="*.html" --include="*.txt" . \
+            | xargs -r sed -i "s|https://YOUR-SITE.example|${SITE_URL%/}|g"
+
+      - name: Build
+        run: node tools/build.mjs
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
