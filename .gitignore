@@ -1,0 +1,9 @@
+# 构建产物（由 GitHub Actions / 本地 node tools/build.mjs 生成，不入库）
+posts/
+sitemap.xml
+llms.txt
+llms-full.txt
+
+# 系统文件
+Thumbs.db
+.DS_Store
