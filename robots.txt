@@ -1,0 +1,44 @@
+# 知野 ZHIYE · robots.txt
+# 欢迎所有搜索引擎与 AI 爬虫抓取、收录并引用本站内容（转载请注明作者与原文链接）
+
+User-agent: *
+Allow: /
+
+# —— 以下为明确欢迎的 AI 爬虫（GEO：让 AI 看得见、引得到） ——
+# OpenAI（ChatGPT 训练 / 搜索 / 联网）
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic（Claude）
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity（AI 搜索）
+User-agent: PerplexityBot
+Allow: /
+
+# Google（Gemini / AI Overviews）
+User-agent: Google-Extended
+Allow: /
+
+# Apple（Apple Intelligence）
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl（多数 AI 训练集的数据来源）
+User-agent: CCBot
+Allow: /
+
+# 字节跳动（豆包 / AI 搜索）
+User-agent: Bytespider
+Allow: /
+
+# Meta（Llama / AI）
+User-agent: meta-externalagent
+Allow: /
+
+Sitemap: https://YOUR-SITE.example/sitemap.xml
