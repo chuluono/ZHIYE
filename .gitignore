@@ -7,3 +7,5 @@ llms-full.txt
 # 系统文件
 Thumbs.db
 .DS_Store
+tools/.ghtoken
+tools/api-push.last
