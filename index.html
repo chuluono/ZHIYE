@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 主题提前应用：首帧即为正确主题，消除页面切换时的闪白 -->
+  <script>(function(){var t=null;try{t=localStorage.getItem("blog-theme");}catch(e){}if(t!=="dark"&&t!=="light"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+  <title>知野 ZHIYE · 把好奇放归山野</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file: 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' file: 'unsafe-inline'; img-src 'self' file: data:; font-src 'self' file:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='11' fill='%231C1C1E'/><rect x='13' y='18' width='22' height='22' fill='none' stroke='%23FFFFFF' stroke-width='2.6'/><line x1='19' y1='34' x2='41' y2='12' stroke='%236FAE90' stroke-width='2.6' stroke-linecap='round'/><circle cx='19' cy='34' r='2.8' fill='%236FAE90'/></svg>">
+  <meta name="description" content="知野 ZHIYE：Chuluo 的个人博客，记录前端技术、效率工具、读书笔记与日常生活，全部文章由 Markdown 书写。">
+  <meta name="author" content="Chuluo">
+  <link rel="canonical" href="https://YOUR-SITE.example/">
+  <meta name="theme-color" content="#F3F3F1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="知野 ZHIYE · 把好奇放归山野">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="知野 ZHIYE">
+  <meta property="og:url" content="https://YOUR-SITE.example/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:image" content="https://YOUR-SITE.example/img/brand-icon.png">
+  <meta property="og:description" content="记录前端技术、效率工具、读书笔记与日常生活。">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "知野 ZHIYE",
+    "url": "https://YOUR-SITE.example/",
+    "description": "Chuluo 的个人博客，记录前端技术、效率工具、读书笔记与日常生活。",
+    "inLanguage": "zh-CN",
+    "author": { "@type": "Person", "name": "Chuluo", "url": "https://YOUR-SITE.example/about.html" }
+  }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><svg class="brand-logo" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="13" width="30" height="30" fill="none" stroke="currentColor" stroke-width="3"/><line x1="17" y1="35" x2="45" y2="7" stroke="var(--wild)" stroke-width="3" stroke-linecap="round"/><circle cx="17" cy="35" r="3.4" fill="var(--wild)"/></svg>知野</a>
+      <nav class="site-nav">
+        <a href="index.html" class="active" aria-current="page">首页</a>
+        <a href="notes.html">随笔</a>
+        <a href="about.html">关于</a>
+        <button class="theme-toggle" aria-label="切换深浅主题（快捷键 T）"></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 背景光晕 -->
+    <div class="bg-glow g1" aria-hidden="true"></div>
+    <div class="bg-glow g2" aria-hidden="true"></div>
+
+    <div class="home-layout container">
+      <!-- 侧栏：作者卡片 -->
+      <aside class="side-col reveal">
+        <div class="profile-card">
+          <img class="profile-avatar" src="img/avatar.png" alt="Chuluo 的头像" width="88" height="88">
+          <b class="profile-name">Chuluo</b>
+          <p class="profile-bio">我将玫瑰藏于身后，风起花落，<br>从此鲜花赠自己，纵马踏花向自由</p>
+          <div class="profile-stats" id="profileStats"></div>
+          <!-- 社交链接（GitHub / 邮箱 / B站） -->
+          <a class="profile-github" href="https://github.com/chuluono" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+          </a>
+          <div class="profile-links">
+            <a class="profile-ico" href="mailto:chuluo1000@qq.com" data-copy-email="chuluo1000@qq.com" title="点击复制邮箱" aria-label="复制邮箱地址">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </a>
+            <a class="profile-ico" href="https://space.bilibili.com/3461567341398555" target="_blank" rel="noopener noreferrer" title="Bilibili" aria-label="Bilibili">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.8 4.65h.85c1.51.06 2.77.58 3.77 1.58 1 .99 1.52 2.25 1.56 3.76v7.36c-.04 1.51-.56 2.77-1.56 3.77s-2.26 1.52-3.77 1.56H5.33c-1.51-.04-2.77-.56-3.77-1.56S.04 18.86 0 17.35v-7.36c.04-1.51.56-2.77 1.56-3.76 1-1 2.26-1.52 3.77-1.58h.77L4.93 3.53a1.23 1.23 0 0 1-.37-.91c0-.35.12-.65.37-.9l.03-.03c.26-.25.57-.37.92-.37.34 0 .65.12.92.37l2.55 2.42c.07.07.13.14.19.21h4.26c.05-.07.11-.14.16-.21l2.86-2.75c.26-.25.57-.37.92-.37.34 0 .66.15.93.4.26.25.39.55.39.91 0 .35-.12.65-.37.9zM5.33 7.24c-.74.02-1.37.28-1.88.77-.5.5-.77 1.13-.79 1.9v7.51c.02.77.29 1.4.79 1.9.5.5 1.13.75 1.88.77h13.34c.74-.02 1.37-.27 1.88-.77.5-.5.77-1.13.78-1.9V9.91c-.01-.77-.28-1.4-.78-1.9-.51-.49-1.14-.75-1.88-.77zM8 11.11c.37 0 .68.12.93.37.25.25.38.57.4.96v1.17c-.02.39-.15.71-.4.96-.25.25-.56.37-.93.37s-.68-.12-.93-.37c-.25-.25-.38-.57-.4-.96v-1.17c0-.37.13-.69.39-.95.25-.26.57-.38.94-.38zm8 0c.37 0 .68.12.93.37.25.25.38.57.4.96v1.17c-.02.39-.15.71-.4.96-.25.25-.56.37-.93.37s-.68-.12-.93-.37c-.25-.25-.38-.57-.4-.96v-1.17c.02-.39.15-.71.4-.96.25-.25.56-.37.93-.37z"/></svg>
+            </a>
+            <!-- 公众号：点击/悬停弹出二维码（图片放 img/wx-qr.png 即生效） -->
+            <div class="profile-wechat">
+              <button type="button" class="profile-ico" id="wxBtn" title="微信公众号" aria-label="微信公众号二维码" aria-expanded="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M9.3 4.2c-3.9 0-7 2.6-7 5.9 0 1.8 1 3.5 2.5 4.6L4.2 17l2.4-1.2c.8.3 1.7.4 2.7.4h.4a5.9 5.9 0 0 1-.2-1.5c0-3.1 2.9-5.6 6.5-5.6h.3c-.6-2.8-3.6-4.9-7-4.9z"/>
+                  <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M15.6 9.4c-3.3 0-6 2.2-6 4.9s2.7 4.9 6 4.9c.7 0 1.4-.1 2-.3l2.2 1.1-.6-1.9c1.4-.9 2.4-2.3 2.4-3.8 0-2.7-2.7-4.9-6-4.9z"/>
+                  <g fill="currentColor">
+                    <circle cx="7" cy="9" r="1"/><circle cx="11.4" cy="9" r="1"/>
+                    <circle cx="13.8" cy="13.6" r=".9"/><circle cx="17.4" cy="13.6" r=".9"/>
+                  </g>
+                </svg>
+              </button>
+              <div class="wx-pop" id="wxPop">
+                <img src="img/wx-qr.png" alt="微信公众号二维码" width="140" height="140">
+                <b>微信公众号</b>
+                <span>微信扫码关注</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 侧栏：最近文章 -->
+        <div class="side-card">
+          <h3 class="side-title">最近文章</h3>
+          <ol class="side-recent" id="recentList"></ol>
+        </div>
+      </aside>
+
+      <!-- 右列：标语 + 搜索 + 筛选 + 文章流 -->
+      <div class="feed-col">
+        <h1 class="feed-slogan reveal" style="transition-delay:.08s">把好奇放归山野，<span class="grad">让知识野蛮生长</span></h1>
+
+        <!-- 实时搜索 -->
+        <div class="search-box reveal" style="transition-delay:.16s" role="search">
+          <input id="searchInput" type="text" placeholder="搜索文章、标签…（支持标题 / 摘要 / 标签）" autocomplete="off" aria-label="搜索文章">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path>
+          </svg>
+          <button id="searchClear" type="button" class="search-clear" aria-label="清空搜索">✕</button>
+        </div>
+
+        <!-- 标签筛选 -->
+        <div class="tag-filter" id="tagFilter"></div>
+
+        <!-- 精选 / 最新文章 -->
+        <section id="featuredSection">
+          <div class="section-head"><h2>最新文章</h2></div>
+          <div id="featured"></div>
+        </section>
+
+        <!-- 文章列表 -->
+        <section>
+          <div class="section-head"><h2 id="listTitle">全部文章</h2><span class="count" id="listCount"></span></div>
+          <div class="post-grid" id="postList"></div>
+          <nav class="pagination" id="pagination" hidden aria-label="分页"></nav>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p class="footer-brand">知野 ZHIYE<span class="footer-tagline">把好奇放归山野</span></p>
+      <div class="footer-right">
+        <span class="footer-copy">© 2026 Chuluo</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="backTop" class="back-top" aria-label="回到顶部">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <circle class="ring-bg" cx="24" cy="24" r="21"></circle>
+      <circle class="ring-fg" cx="24" cy="24" r="21"></circle>
+    </svg>
+    <span class="arrow">↑</span>
+  </button>
+
+  <script src="js/posts.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function __initHome() {
+      var H = window.BLOG_HELPERS;
+      /* 首页列表视图：系列只显示一章入口，其余章节经文章页章节目录访问 */
+      var posts = H.visiblePosts();
+      var tags = H.allTags(posts);
+
+      /* 公众号二维码弹层：点击切换（悬停由 CSS 兜底），点击外部关闭；二维码图片缺失时显示占位 */
+      var wxWrap = document.querySelector(".profile-wechat");
+      var wxBtn = document.getElementById("wxBtn");
+      var wxImg = document.querySelector(".wx-pop img");
+      if (wxImg) {
+        wxImg.addEventListener("error", function () { wxImg.closest(".wx-pop").classList.add("no-qr"); });
+      }
+      if (wxBtn && wxWrap) {
+        wxBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var open = wxWrap.classList.toggle("open");
+          wxBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        document.addEventListener("click", function (e) {
+          if (!wxWrap.contains(e.target)) {
+            wxWrap.classList.remove("open");
+            wxBtn.setAttribute("aria-expanded", "false");
+          }
+        });
+      }
+
+      /* 作者卡片统计 */
+      var totalMin = posts.reduce(function (s, p) { return s + H.readingMin(p.content); }, 0);
+      document.getElementById("profileStats").innerHTML =
+        '<div class="pstat"><b>' + posts.length + "</b><span>文章</span></div>" +
+        '<div class="pstat"><b>' + tags.length + "</b><span>标签</span></div>" +
+        '<div class="pstat"><b>' + totalMin + "</b><span>分钟阅读</span></div>";
+
+      /* 侧栏：最近文章 */
+      document.getElementById("recentList").innerHTML = posts.slice(0, 5).map(function (p) {
+        var thumb = '<span class="mini-thumb" style="' + H.coverStyle(p) + '" aria-hidden="true">' +
+          (p.coverImg ? '<img src="' + window.BLOG_ROOT + p.coverImg + '" alt="" loading="lazy">' : p.emoji) +
+          "</span>";
+        return '<li><a href="' + H.postURL(p) + '">' + thumb +
+          '<span class="mini-text"><span class="mini-title">' + H.escapeHtml(p.title) + "</span>" +
+          "<time>" + H.fmtRelative(p.date) + "</time></span></a></li>";
+      }).join("");
+
+      /* 状态：标签 + 关键词可叠加过滤 */
+      var currentTag = new URLSearchParams(location.search).get("tag") || "全部";
+      var query = "";
+      var PAGE_SIZE = 4;   /* 每页文章数 */
+      var pageNum = 1;
+      var filterBox = document.getElementById("tagFilter");
+      var listEl = document.getElementById("postList");
+      var searchInput = document.getElementById("searchInput");
+      var searchBox = document.querySelector(".search-box");
+      var searchClear = document.getElementById("searchClear");
+      var featuredSection = document.getElementById("featuredSection");
+
+      /* 精选（最新一篇）；无文章时隐藏该区块 */
+      document.getElementById("featured").innerHTML = posts.length ? H.cardHTML(posts[0], true) : "";
+      if (!posts.length) featuredSection.style.display = "none";
+
+      function renderChips() {
+        var html = ['<button class="chip' + (currentTag === "全部" ? " active" : "") + '" data-tag="全部">全部 <i>' + posts.length + "</i></button>"];
+        tags.forEach(function (t) {
+          html.push('<button class="chip' + (currentTag === t[0] ? " active" : "") + '" data-tag="' + H.escapeHtml(t[0]) + '">' + H.escapeHtml(t[0]) + " <i>" + t[1] + "</i></button>");
+        });
+        filterBox.innerHTML = html.join("");
+      }
+
+      function matchQuery(p, q) {
+        var hay = (p.title + " " + p.excerpt + " " + p.tags.join(" ")).toLowerCase();
+        return hay.indexOf(q.toLowerCase()) !== -1;
+      }
+
+      function renderList() {
+        var list = posts.filter(function (p) {
+          return (currentTag === "全部" || p.tags.indexOf(currentTag) !== -1) && (!query || matchQuery(p, query));
+        });
+        document.getElementById("listTitle").innerHTML = query
+          ? "搜索：<span class=\"grad\">" + H.escapeHtml(query) + "</span>"
+          : (currentTag === "全部" ? "全部文章" : "标签：" + H.escapeHtml(currentTag));
+        document.getElementById("listCount").textContent = list.length + " 篇";
+        featuredSection.style.display = (posts.length && currentTag === "全部" && !query) ? "" : "none";
+
+        var pgBox = document.getElementById("pagination");
+        if (!list.length) {
+          pgBox.hidden = true;
+          listEl.innerHTML = query
+            ? '<div class="empty-state"><div class="big">🔭</div>没有找到与「' + H.escapeHtml(query) + '」相关的文章<br>换个关键词试试？</div>'
+            : '<div class="empty-state"><div class="big">🌱</div>这个标签下还没有文章～</div>';
+          return;
+        }
+
+        /* 分页切片 */
+        var totalPages = Math.ceil(list.length / PAGE_SIZE);
+        if (pageNum > totalPages) pageNum = totalPages;
+        if (pageNum < 1) pageNum = 1;
+        var pageList = list.slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
+
+        /* 卡片带 stagger 渐显延迟，标题与摘要做搜索高亮 */
+        listEl.innerHTML = pageList.map(function (p, i) {
+          var delay = " style=\"transition-delay:" + Math.min(i, 8) * 55 + "ms\"";
+          return H.cardHTML(p, false, query).replace('class="post-card"', 'class="post-card reveal"' + delay);
+        }).join("");
+        window.BLOG_initReveal(listEl);
+
+        /* 分页条（← 1 →） */
+        if (totalPages <= 1) { pgBox.hidden = true; pgBox.innerHTML = ""; return; }
+        pgBox.hidden = false;
+        var phtml = '<button class="pg-btn pg-nav" data-pg="prev" aria-label="上一页"' + (pageNum === 1 ? " disabled" : "") + ">←</button>";
+        for (var i = 1; i <= totalPages; i++) {
+          phtml += '<button class="pg-btn' + (i === pageNum ? " active" : "") + '" data-pg="' + i + '" aria-label="第 ' + i + ' 页">' + i + "</button>";
+        }
+        phtml += '<button class="pg-btn pg-nav" data-pg="next" aria-label="下一页"' + (pageNum === totalPages ? " disabled" : "") + ">→</button>";
+        pgBox.innerHTML = phtml;
+      }
+
+      /* 标签筛选 */
+      filterBox.addEventListener("click", function (e) {
+        var btn = e.target.closest(".chip");
+        if (!btn) return;
+        currentTag = btn.getAttribute("data-tag");
+        pageNum = 1;
+        renderChips();
+        renderList();
+        /* file:// 协议下 replaceState 可能抛 SecurityError，静默降级 */
+        try {
+          history.replaceState(null, "", currentTag === "全部" ? "index.html" : "index.html?tag=" + encodeURIComponent(currentTag));
+        } catch (err) {}
+      });
+
+      /* 分页翻页 */
+      document.getElementById("pagination").addEventListener("click", function (e) {
+        var btn = e.target.closest(".pg-btn");
+        if (!btn || btn.disabled) return;
+        var v = btn.getAttribute("data-pg");
+        if (v === "prev") pageNum -= 1;
+        else if (v === "next") pageNum += 1;
+        else pageNum = parseInt(v, 10);
+        renderList();
+        H.smoothTo(document.getElementById("listTitle"));
+      });
+
+      /* 实时搜索（轻防抖） */
+      var debounceTimer = null;
+      searchInput.addEventListener("input", function () {
+        searchBox.classList.toggle("has-value", !!searchInput.value);
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+          query = searchInput.value.trim();
+          pageNum = 1;
+          renderList();
+        }, 140);
+      });
+      searchClear.addEventListener("click", function () {
+        searchInput.value = "";
+        searchBox.classList.remove("has-value");
+        query = "";
+        pageNum = 1;
+        renderList();
+        searchInput.focus();
+      });
+
+      renderChips();
+      renderList();
+    }
+    __initHome();
+  </script>
+</body>
+</html>
